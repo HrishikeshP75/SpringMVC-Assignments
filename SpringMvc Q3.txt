@@ -1,0 +1,107 @@
+//Q3.Wap model  usermodel ---username,password and email
+UserController. java
+
+
+package com.springmvc.userModel;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@Controller
+public class UserModel {
+	
+	UserVerify check= new UserVerify();
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginUser() {
+		
+		return "login";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String handlelogin(@RequestParam String name, 
+							  @RequestParam String password, ModelMap model) {
+		if(check.isValid(name, password)) {
+			model.put("name", name);
+			model.put(password,model );
+			return "success";
+		}
+		else {
+			//model.put("error", "Try again");
+			return "error";
+		}
+		
+	}
+}
+
+`````````````````````````````````````````````````````````````````````````````````````````````````````
+UserVerify.java
+
+package com.springmvc.userModel;
+
+public class UserVerify {
+	
+	public boolean isValid(String user, String password) {
+		return user.equals("Pranab") && password.equals("Mohanta");
+	}
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+success.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Success</title>
+</head>
+<body>
+	<h1><font color ="green"> SUCCESS</h1>
+</body>
+</html>
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+login.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+</head>
+<body>
+
+	Enter your username and password
+	
+	<form action="/springmvc/login" method="post">
+		Username: <input type=" text" name="name"><br>
+		Password: <input type="text" name="password"><br> 
+		<input type="submit"><br>
+		<br>
+	</form>
+
+
+</body>
+</html>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+error.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>
+		<font color="yellow">Invalid Username and Password 
+	</h1>
+</body>
+</html>
